@@ -20,7 +20,7 @@ public class AnagramDictionary {
     private static int wordLength = DEFAULT_WORD_LENGTH;
 
     private static HashSet<String> wordSet = new HashSet<>();
-    private static ArrayList<String> wordList = new ArrayList<>();
+    //private static ArrayList<String> wordList = new ArrayList<>();
     private static HashMap<String, ArrayList<String>> lettersToWord = new HashMap<>();
     private static HashMap<Integer, ArrayList<String>> sizeToWords = new HashMap<>();
 
@@ -61,7 +61,7 @@ public class AnagramDictionary {
             String sortedword = sortWord(s);
 
             if (lettersToWord.containsKey(sortedword) && lettersToWord.get(sortedword).size() < MIN_NUM_ANAGRAMS){
-                for (String str : lettersToWord.get(sortedword)){
+                for (String str : lettersToWord.get(sortedword)) {
                     sizeToWords.get(str.length()).remove(str);
                 }
                 lettersToWord.remove(lettersToWord.get(sortedword));
@@ -71,7 +71,6 @@ public class AnagramDictionary {
     }
 
     public static String sortWord(String input){
-
         char[] chars = input.toCharArray();
         Arrays.sort(chars);
         String sorted = new String(chars);
