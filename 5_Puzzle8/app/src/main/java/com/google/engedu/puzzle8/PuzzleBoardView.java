@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,8 +53,12 @@ public class PuzzleBoardView extends View {
 
     public void shuffle() {
         if (animation == null && puzzleBoard != null) {
-            // Do something.
+            for (int i = 0; i < 100; i++){
+                ArrayList<PuzzleBoard> arr = puzzleBoard.neighbours();
+                puzzleBoard = arr.get( random.nextInt(arr.size()) );
+            }
         }
+        invalidate();
     }
 
     @Override

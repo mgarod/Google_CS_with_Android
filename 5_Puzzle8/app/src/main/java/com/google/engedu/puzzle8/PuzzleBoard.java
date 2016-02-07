@@ -18,6 +18,32 @@ public class PuzzleBoard {
     private ArrayList<PuzzleTile> tiles;
 
     PuzzleBoard(Bitmap bitmap, int parentWidth) {
+        bitmap = Bitmap.createScaledBitmap(bitmap, parentWidth, parentWidth, false);
+        tiles = new ArrayList<>();
+        int tile_counter = 1;
+        int tile_width = bitmap.getWidth() / NUM_TILES;
+        int tile_height = bitmap.getHeight() / NUM_TILES;
+
+        int X = 0;
+        int Y = 0;
+
+        for (int i = 0; i < NUM_TILES; i++) {
+            for (int j = 0; j < NUM_TILES; j++) {
+                Bitmap tile = Bitmap.createBitmap(bitmap, X, Y, tile_width, tile_height);
+
+                if(tile_counter == 1) {
+                    tiles.add(null);
+                }
+                else {
+                    tiles.add(new PuzzleTile(tile, tile_counter));
+                }
+                tile_counter += 1;
+                X += tile_width;
+            }
+
+            Y += tile_height;
+            X = 0;
+        }
     }
 
     PuzzleBoard(PuzzleBoard otherBoard) {
@@ -93,11 +119,44 @@ public class PuzzleBoard {
     }
 
     public ArrayList<PuzzleBoard> neighbours() {
-        return null;
+        ArrayList<PuzzleBoard> neighbors = new ArrayList<PuzzleBoard>();
+        int bound = NUM_TILES * NUM_TILES;
+
+        int i = 0;
+        for( ; i < bound; i++){
+            if (tiles.get(i) == null){
+                break;
+            }
+        }
+
+        if (i + 3 < NUM_TILES){
+            PuzzleBoard down = new PuzzleBoard(this);
+            down.swapTiles(i+3, i);
+            neighbors.add(down);
+        }
+
+        if (i + 1 < NUM_TILES){
+            PuzzleBoard right = new PuzzleBoard(this);
+            right.swapTiles(i+1, i);
+            neighbors.add(right);
+        }
+
+        if (i - 3 >= 0){
+            PuzzleBoard up = new PuzzleBoard(this);
+            up.swapTiles(i - 3, i);
+            neighbors.add(up);
+        }
+
+        if (i - 1 >= 0){
+            PuzzleBoard left = new PuzzleBoard(this);
+            left.swapTiles(i-1, i);
+            neighbors.add(left);
+        }
+
+        return neighbors;
     }
 
     public int priority() {
         return 0;
     }
-
 }
